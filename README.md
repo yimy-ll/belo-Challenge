@@ -64,6 +64,24 @@ pnpm run start:dev
 ```
 De manera local, la app arrancará por defecto en el puerto `3000` (al menos que configures `PORT` en tu `.env`).
 
+## 👤 Usuarios de Prueba
+
+La base de datos se inicializa con los siguientes usuarios de prueba (ver `seed.sql`):
+
+### Juan Perez
+- **Email**: `juan@test.com`
+- **Password**: `password`
+- **Cuentas**:
+  - **ARS**: `CVU-JUAN-ARS-1234` (Balance: 50,000.00)
+  - **BTC**: `bc1q-juan-btc-address` (Balance: 0.15)
+
+### Maria Lopez
+- **Email**: `maria@test.com`
+- **Password**: `password`
+- **Cuentas**:
+  - **ARS**: `CVU-MARIA-ARS-9876` (Balance: 125,000.50)
+  - **BTC**: `bc1q-maria-btc-address` (Balance: 2.50)
+
 ## 📚 Documentación de la API
 
 La documentación interactiva de la API (Swagger) está disponible una vez inicializada la aplicación. Puedes acceder a ella según el entorno de ejecución:

@@ -1,3 +1,65 @@
+-- Extensión necesaria para UUIDs (si no existe)
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
+-- Enumeraciones
+CREATE TYPE "currency_type_enum" AS ENUM ('FIAT', 'CRYPTO');
+
+CREATE TYPE "transaction_status_enum" AS ENUM ('PENDING', 'CONFIRMED', 'REJECTED');
+
+-- Tabla: User
+CREATE TABLE "user" (
+    "id" uuid NOT NULL DEFAULT uuid_generate_v4 (),
+    "name" character varying NOT NULL,
+    "email" character varying NOT NULL,
+    "password" character varying NOT NULL,
+    "createdAt" TIMESTAMP NOT NULL DEFAULT now (),
+    "updatedAt" TIMESTAMP NOT NULL DEFAULT now (),
+    CONSTRAINT "PK_user_id" PRIMARY KEY ("id"),
+    CONSTRAINT "UQ_user_email" UNIQUE ("email")
+);
+
+-- Tabla: Currency
+CREATE TABLE "currency" (
+    "id" uuid NOT NULL DEFAULT uuid_generate_v4 (),
+    "code" character varying NOT NULL,
+    "type" "currency_type_enum" NOT NULL,
+    "precision" integer NOT NULL,
+    "createdAt" TIMESTAMP NOT NULL DEFAULT now (),
+    "updatedAt" TIMESTAMP NOT NULL DEFAULT now (),
+    CONSTRAINT "PK_currency_id" PRIMARY KEY ("id"),
+    CONSTRAINT "UQ_currency_code" UNIQUE ("code")
+);
+
+-- Tabla: Account
+CREATE TABLE "account" (
+    "id" uuid NOT NULL DEFAULT uuid_generate_v4 (),
+    "balance" numeric(12, 2) NOT NULL DEFAULT 0,
+    "frozenBalance" numeric(12, 2) NOT NULL DEFAULT 0,
+    "currency_id" uuid NOT NULL,
+    "address" character varying,
+    "user_id" uuid NOT NULL,
+    "createdAt" TIMESTAMP NOT NULL DEFAULT now (),
+    "updatedAt" TIMESTAMP NOT NULL DEFAULT now (),
+    CONSTRAINT "PK_account_id" PRIMARY KEY ("id"),
+    CONSTRAINT "UQ_account_address" UNIQUE ("address"),
+    CONSTRAINT "FK_account_currency" FOREIGN KEY ("currency_id") REFERENCES "currency" ("id") ON DELETE CASCADE,
+    CONSTRAINT "FK_account_user" FOREIGN KEY ("user_id") REFERENCES "user" ("id") ON DELETE CASCADE
+);
+
+-- Tabla: Transaction
+CREATE TABLE "transaction" (
+    "id" uuid NOT NULL DEFAULT uuid_generate_v4 (),
+    "amount" numeric(10, 2) NOT NULL,
+    "status" "transaction_status_enum" NOT NULL DEFAULT 'PENDING',
+    "user_id" uuid NOT NULL,
+    "origin_address" character varying NOT NULL,
+    "destination_address" character varying NOT NULL,
+    "created_at" TIMESTAMP NOT NULL DEFAULT now (),
+    "updated_at" TIMESTAMP NOT NULL DEFAULT now (),
+    CONSTRAINT "PK_transaction_id" PRIMARY KEY ("id"),
+    CONSTRAINT "FK_transaction_user" FOREIGN KEY ("user_id") REFERENCES "user" ("id") ON DELETE CASCADE
+);
+
 -- Creamos monedas constantes
 INSERT INTO
     "currency" (
@@ -41,7 +103,7 @@ VALUES
         '33333333-aaaa-bbbb-cccc-333333333333',
         'Juan Perez',
         'juan@test.com',
-        '$2b$10$EP0M/V4K6A.6.l75wRO6eONJOWbStR/VqC3K/G/uK0.UOhsItiB5i',
+        '$2a$12$QFWpIrB6HaXT7ECuKL7MFunikV97kq/hoAOhCbKT8JTkdkIJwaMo.',
         NOW (),
         NOW ()
     ),
@@ -49,7 +111,7 @@ VALUES
         '44444444-aaaa-bbbb-cccc-444444444444',
         'Maria Lopez',
         'maria@test.com',
-        '$2b$10$EP0M/V4K6A.6.l75wRO6eONJOWbStR/VqC3K/G/uK0.UOhsItiB5i',
+        '$2a$12$QFWpIrB6HaXT7ECuKL7MFunikV97kq/hoAOhCbKT8JTkdkIJwaMo.',
         NOW (),
         NOW ()
     ) ON CONFLICT (email) DO NOTHING;
