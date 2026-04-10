@@ -63,7 +63,7 @@ describe('GET /transactions', () => {
   });
 
   it('Debe filtrar transacciones por estado', async () => {
-    // Crear una transacción APPROVED (monto <= 5000)
+    // Crear una transacción CONFIRMED (monto <= 5000)
     await request(ctx.app.getHttpServer())
       .post('/transactions')
       .set('Authorization', `Bearer ${ctx.authToken}`)

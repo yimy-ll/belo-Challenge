@@ -61,7 +61,7 @@ describe('POST /transactions', () => {
 
     expect(res.status).toBe(ResponseStatusCode.CREATED);
     expect(res.body.success).toBe(true);
-    expect(res.body.data.status).toBe(TransactionStatus.APPROVED);
+    expect(res.body.data.status).toBe(TransactionStatus.CONFIRMED);
     expect(Number(res.body.data.amount)).toBe(amount);
 
     // Verificar saldos

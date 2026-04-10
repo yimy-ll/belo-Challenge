@@ -51,8 +51,8 @@ export class TransactionsService {
     }
   }
 
-  async findAll(filterDto: FilterDto, paginationDto: PaginationDto): Promise<PaginatedResponseDto<TransactionDto>> {
-    const { page = 1, limit = 10 } = paginationDto;
+  async findAll(filterDto: FilterDto): Promise<PaginatedResponseDto<TransactionDto>> {
+    const { page = 1, limit = 10 } = filterDto;
     const skip = (page - 1) * limit;
 
     const queryBuilder = this.transactionRepository.createQueryBuilder('transaction');

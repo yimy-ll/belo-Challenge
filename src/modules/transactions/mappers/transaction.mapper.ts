@@ -21,7 +21,7 @@ export class TransactionMapper {
     entity.amount = createDto.amount;
     entity.originAddress = createDto.originAddress;
     entity.destinationAddress = createDto.destinationAddress;
-    entity.status = createDto.amount > pendingThreshold ? TransactionStatus.PENDING : TransactionStatus.APPROVED;
+    entity.status = createDto.amount > pendingThreshold ? TransactionStatus.PENDING : TransactionStatus.CONFIRMED;
     entity.userId = userId;
     return entity;
   }

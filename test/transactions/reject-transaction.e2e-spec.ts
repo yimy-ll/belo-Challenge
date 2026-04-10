@@ -57,7 +57,7 @@ describe('PATCH /transactions/:id/reject', () => {
     expect(Number(destAfter!.balance)).toBe(5000.0);
   });
 
-  it('Debe retornar error si se intenta rechazar una transacción que ya fue APPROVED', async () => {
+  it('Debe retornar error si se intenta rechazar una transacción que ya fue CONFIRMED', async () => {
     // Primero aprobar
     await request(ctx.app.getHttpServer())
       .patch(`/transactions/${pendingTransaction.id}/approve`)

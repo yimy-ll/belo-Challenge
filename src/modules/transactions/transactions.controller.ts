@@ -28,8 +28,8 @@ export class TransactionsController {
     schema: GenericResponseSchema(PaginationSwaggerSchema, 200)
   })
   @Get()
-  async findAll(@Query() filterDto: FilterDto, @Query() paginationDto: PaginationDto) {
-    return this.transactionsService.findAll(filterDto, paginationDto);
+  async findAll(@Query() filterDto: FilterDto) {
+    return this.transactionsService.findAll(filterDto);
   }
 
   @ApiOperation({ summary: 'Aprobar una transacción', description: 'Cambia el estado de una transacción pendiente a aprobada.' })

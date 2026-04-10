@@ -87,7 +87,7 @@ describe('Consistencia de saldos', () => {
       .set('Authorization', `Bearer ${ctx.authToken}`)
       .expect(ResponseStatusCode.OK);
 
-    // Ahora sí debe funcionar: 3000.0 <= threshold (5000) → APPROVED
+    // Ahora sí debe funcionar: 3000.0 <= threshold (5000) → CONFIRMED
     const successRes = await request(ctx.app.getHttpServer())
       .post('/transactions')
       .set('Authorization', `Bearer ${ctx.authToken}`)
@@ -98,7 +98,7 @@ describe('Consistencia de saldos', () => {
       });
 
     expect(successRes.status).toBe(ResponseStatusCode.CREATED);
-    expect(successRes.body.data.status).toBe(TransactionStatus.APPROVED);
+    expect(successRes.body.data.status).toBe(TransactionStatus.CONFIRMED);
   });
 
   it('La suma total del sistema debe permanecer constante después de múltiples transacciones', async () => {
@@ -107,7 +107,7 @@ describe('Consistencia de saldos', () => {
     const destBefore = await ctx.accountRepo.findOne({ where: { id: ctx.destinationAccount.id } });
     const totalBefore = Number(originBefore!.balance) + Number(destBefore!.balance);
 
-    // Ejecutar varias transacciones automáticas (monto <= 5000 → APPROVED)
+    // Ejecutar varias transacciones automáticas (monto <= 5000 → CONFIRMED)
     await request(ctx.app.getHttpServer())
       .post('/transactions')
       .set('Authorization', `Bearer ${ctx.authToken}`)

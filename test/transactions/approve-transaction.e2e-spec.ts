@@ -49,7 +49,7 @@ describe('PATCH /transactions/:id/approve', () => {
       console.log("PENDING TRANSACTION:", pendingTransaction);
     }
     expect(res.status).toBe(ResponseStatusCode.OK);
-    expect(res.body.data.status).toBe(TransactionStatus.APPROVED);
+    expect(res.body.data.status).toBe(TransactionStatus.CONFIRMED);
 
     const originAfter = await ctx.accountRepo.findOne({ where: { id: ctx.originAccount.id } });
     const destAfter = await ctx.accountRepo.findOne({ where: { id: ctx.destinationAccount.id } });
@@ -59,7 +59,7 @@ describe('PATCH /transactions/:id/approve', () => {
     expect(Number(destAfter!.balance)).toBe(5000.50 + 6000.90);
   });
 
-  it('Debe retornar error si se intenta aprobar una transacción que ya fue APPROVED', async () => {
+  it('Debe retornar error si se intenta aprobar una transacción que ya fue CONFIRMED', async () => {
     // Primero aprobar
     await request(ctx.app.getHttpServer())
       .patch(`/transactions/${pendingTransaction.id}/approve`)

@@ -36,7 +36,7 @@ export class Transaction {
   updatedAt: Date;
 
   confirmed() {
-    this.status = TransactionStatus.APPROVED;
+    this.status = TransactionStatus.CONFIRMED;
   }
 
   rejected() {
