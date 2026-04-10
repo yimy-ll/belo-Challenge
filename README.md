@@ -24,7 +24,7 @@ Aplicación backend desarrollada con [NestJS](https://nestjs.com/), TypeORM y Po
 1. Clonar el repositorio.
 2. Crear un archivo `.env` en la raíz del proyecto. El proyecto ya incluye un archivo `.env` por defecto que puedes utilizar como base:
 ```env
-DB_HOST=localhost
+DB_HOST=postgres
 DB_PORT=5432
 DB_USER=postgres
 DB_PASSWORD=postgres
@@ -32,7 +32,7 @@ DB_NAME=belo-dev
 DB_SYNCHRONIZE=true
 TRANSACTION_PENDING_THRESHOLD=5000
 
-REDIS_HOST=localhost
+REDIS_HOST=redis
 REDIS_PORT=6379
 ```
 3. Instalar las dependencias locales:
